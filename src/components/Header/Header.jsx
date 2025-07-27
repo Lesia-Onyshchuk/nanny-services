@@ -1,0 +1,84 @@
+import { NavLink } from "react-router-dom";
+import Navigation from "../Navigation/Navigation.jsx";
+import { useEffect, useState } from "react";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import toast from "react-hot-toast";
+import { auth, db } from "../../firebase-config.js";
+import RegistrationModal from "../RegistrationModal/RegistrationModal.jsx";
+import LoginModal from "../LoginModal/LoginModal.jsx";
+import { get, ref } from "firebase/database";
+
+const Header = () => {
+  const [user, setUser] = useState(null);
+  const [modal, setModal] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
+      if (authUser) {
+        try {
+          const snapshot = await get(ref(db, "users/" + authUser.uid));
+          const userData = snapshot.val();
+
+          setUser({
+            uid: authUser.uid,
+            email: authUser.email,
+            name: userData?.username || "User",
+          });
+        } catch (error) {
+          console.error("Failed to load user data:", error);
+          setUser({
+            uid: authUser.uid,
+            email: authUser.email,
+            name: "User",
+          });
+        }
+      } else {
+        setUser(null);
+      }
+    });
+
+    return unsubscribe;
+  }, []);
+
+  const logout = async () => {
+    try {
+      await signOut(auth);
+      setUser(null);
+      toast.success("Successful logout");
+    } catch (error) {
+      toast.error("Something went wrong");
+    }
+  };
+
+  const renderModal = () => {
+    if (modal === "register") {
+      return <RegistrationModal onClose={() => setModal(null)} />;
+    }
+
+    if (modal === "login") {
+      return <LoginModal onClose={() => setModal(null)} />;
+    }
+
+    return null;
+  };
+
+  return (
+    <div>
+      <Navigation user={user} />
+      {user ? (
+        <div>
+          <p>{user.name}</p>
+          <button onClick={logout}>Log out</button>
+        </div>
+      ) : (
+        <div>
+          <button onClick={() => setModal("login")}>Log In</button>
+          <button onClick={() => setModal("register")}>Registration</button>
+        </div>
+      )}
+      {renderModal()}
+    </div>
+  );
+};
+
+export default Header;
