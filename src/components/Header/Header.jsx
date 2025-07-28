@@ -7,6 +7,7 @@ import { auth, db } from "../../firebase-config.js";
 import RegistrationModal from "../RegistrationModal/RegistrationModal.jsx";
 import LoginModal from "../LoginModal/LoginModal.jsx";
 import { get, ref } from "firebase/database";
+import css from "./Header.module.css";
 
 const Header = () => {
   const [user, setUser] = useState(null);
@@ -63,7 +64,7 @@ const Header = () => {
   };
 
   return (
-    <div>
+    <div className={css.headerbox}>
       <Navigation user={user} />
       {user ? (
         <div>
