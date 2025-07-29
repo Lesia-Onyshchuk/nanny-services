@@ -1,17 +1,43 @@
 .link {
   text-decoration: none;
-  font-weight: 500;
+  font-family: "Helvetica Neue", sans-serif;
+  font-weight: 400;
   font-size: 16px;
   line-height: 1.25;
-  color: #101828;
-  transition: color 300ms ease-in-out;
-  padding: 24px 0;
+  letter-spacing: -0.01em;
+  color: #fbfbfb;
+  text-decoration: none;
+  transition: transform 300ms ease-in-out;
+  padding: 14px 0;
 }
 
 .link:hover {
-  color: #0b44cd;
+  transform: scale(1.2);
 }
 
 .isActive {
-  color: #0b44cd;
+  transform: scale(1.2);
+}
+
+.logo {
+  font-family: "Helvetica Neue", sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.17;
+  letter-spacing: -0.02em;
+  color: #fbfbfb;
+  text-decoration: none;
+  padding: 10px 0;
+}
+
+.navbox {
+  display: flex;
+  /* margin-right: 92px; */
+  gap: 487px;
+  justify-content: space-between;
+}
+
+.nav {
+  display: flex;
+  gap: 40px;
 }

@@ -8,6 +8,7 @@ import { useState } from "react";
 import PrivateRoute from "./PrivateRoute.jsx";
 import Layout from "./Layout.jsx";
 import { Toaster } from "react-hot-toast";
+import "./App.css";
 
 function App() {
   const [loading, setLoading] = useState(false);

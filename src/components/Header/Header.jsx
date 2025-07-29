@@ -64,19 +64,28 @@ const Header = () => {
   };
 
   return (
-    <div className={css.headerbox}>
-      <Navigation user={user} />
-      {user ? (
-        <div>
-          <p>{user.name}</p>
-          <button onClick={logout}>Log out</button>
-        </div>
-      ) : (
-        <div>
-          <button onClick={() => setModal("login")}>Log In</button>
-          <button onClick={() => setModal("register")}>Registration</button>
-        </div>
-      )}
+    <div className={css.wrapper}>
+      <div className={css.headerbox}>
+        <Navigation user={user} />
+        {user ? (
+          <div>
+            <p>{user.name}</p>
+            <button onClick={logout}>Log out</button>
+          </div>
+        ) : (
+          <div className={css.btnbox}>
+            <button onClick={() => setModal("login")} className={css.login}>
+              Log In
+            </button>
+            <button
+              onClick={() => setModal("register")}
+              className={css.register}
+            >
+              Registration
+            </button>
+          </div>
+        )}
+      </div>
       {renderModal()}
     </div>
   );

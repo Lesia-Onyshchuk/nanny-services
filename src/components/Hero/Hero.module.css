@@ -5,11 +5,13 @@
   background-color: #f03f3b;
   border-radius: 30px;
   justify-content: space-between;
+  position: relative;
 }
 
 .infobox {
   padding-top: 251px;
   padding-left: 96px;
+  position: relative;
 }
 
 .heroImg {
@@ -61,3 +63,45 @@
 .isActive {
   color: #0b44cd;
 } */
+
+.accountbox {
+  position: absolute;
+  bottom: 50px;
+  right: 50px;
+  width: 284px;
+  height: 118px;
+  border-radius: 20px;
+  background-color: #fbfbfb;
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkbox {
+  border-radius: 13px;
+  width: 54px;
+  height: 54px;
+  background-color: #f03f3b;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.textbox {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.textName {
+  font-weight: 400;
+  font-size: 16px;
+  color: rgba(17, 16, 28, 0.5);
+}
+
+.number {
+  font-weight: 700;
+  font-size: 24px;
+  color: #11101c;
+}

@@ -6,13 +6,17 @@ import { auth, db } from "../../firebase-config";
 import { ref, set } from "firebase/database";
 import toast from "react-hot-toast";
 import { Field, Form, Formik } from "formik";
+import close from "../../../public/assets/icons/close.svg";
+import eye from "../../../public/assets/icons/eye.svg";
+import eyeoff from "../../../public/assets/icons/eye-off.svg";
+import css from "./RegistartionModal.module.css";
 
 const RegistrationModal = ({ onClose }) => {
   const navigate = useNavigate();
   const emailFieldId = useId();
   const passwordFieldId = useId();
   const nameFieldId = useId();
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPwd, setShowPwd] = useState(false);
 
   const initialValues = {
     name: "",
@@ -94,18 +98,18 @@ const RegistrationModal = ({ onClose }) => {
     }
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev);
+  const togglePwd = () => {
+    setShowPwd((prev) => !prev);
   };
 
   return (
-    <div>
-      <div onClick={handleBackdropClick}>
-        <button type="button" onClick={onClose}>
-          Close
+    <div className={css.wrapper}>
+      <div onClick={handleBackdropClick} className={css.modal}>
+        <button type="button" onClick={onClose} className={css.closeBtn}>
+          <img src={close} alt="close" width="20" />
         </button>
-        <h2>Registration</h2>
-        <p>
+        <h2 className={css.title}>Registration</h2>
+        <p className={css.text}>
           Thank you for your interest in our platform! In order to register, we
           need some information. Please provide us with the following
           information.
@@ -116,25 +120,35 @@ const RegistrationModal = ({ onClose }) => {
           onSubmit={handleSubmit}
         >
           <Form>
-            <Field
-              name="name"
-              type="name"
-              id={nameFieldId}
-              placeholder="Name"
-            />
-            <Field
-              name="email"
-              type="email"
-              id={emailFieldId}
-              placeholder="Email"
-            />
-            <Field
-              name="password"
-              type="password"
-              id={passwordFieldId}
-              placeholder="Password"
-            />
-            <button type="submit">Sing Up</button>
+            <div className={css.inputbox}>
+              <Field
+                name="name"
+                type="name"
+                id={nameFieldId}
+                placeholder="Name"
+                className={css.input}
+              />
+              <Field
+                name="email"
+                type="email"
+                id={emailFieldId}
+                placeholder="Email"
+                className={css.input}
+              />
+              <Field
+                name="password"
+                type={showPwd ? "text" : "password"}
+                id={passwordFieldId}
+                placeholder="Password"
+                className={css.input}
+              />
+              <button type="button" onClick={togglePwd} className={css.eyeBtn}>
+                <img src={showPwd ? eyeoff : eye} alt="Visibility" width="20" />
+              </button>
+            </div>
+            <button type="submit" className={css.submitBtn}>
+              Sing Up
+            </button>
           </Form>
         </Formik>
       </div>

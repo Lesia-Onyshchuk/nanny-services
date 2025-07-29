@@ -1,15 +1,20 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Field, Form, Formik } from "formik";
-import { useEffect, useId } from "react";
+import { useEffect, useId, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { auth } from "../../firebase-config";
+import css from "./LoginModal.module.css";
+import close from "../../../public/assets/icons/close.svg";
+import eye from "../../../public/assets/icons/eye.svg";
+import eyeoff from "../../../public/assets/icons/eye-off.svg";
 
 const LoginModal = ({ onClose }) => {
   const navigate = useNavigate();
   const emailFieldId = useId();
   const passwordFieldId = useId();
+  const [showPwd, setShowPwd] = useState(false);
 
   const initialValues = {
     email: "",
@@ -76,14 +81,18 @@ const LoginModal = ({ onClose }) => {
     }
   };
 
+  const togglePwd = () => {
+    setShowPwd((prev) => !prev);
+  };
+
   return (
-    <div>
-      <div onClick={handleBackdropClick}>
-        <button type="button" onClick={onClose}>
-          Close
+    <div className={css.wrapper}>
+      <div onClick={handleBackdropClick} className={css.modal}>
+        <button type="button" onClick={onClose} className={css.closeBtn}>
+          <img src={close} alt="close" width="20" />
         </button>
-        <h2>Log In</h2>
-        <p>
+        <h2 className={css.title}>Log In</h2>
+        <p className={css.text}>
           Welcome back! Please enter your credentials to access your account and
           continue your babysitter search.
         </p>
@@ -93,19 +102,28 @@ const LoginModal = ({ onClose }) => {
           onSubmit={handleSubmit}
         >
           <Form>
-            <Field
-              name="email"
-              type="email"
-              id={emailFieldId}
-              placeholder="Email"
-            />
-            <Field
-              name="password"
-              type="password"
-              id={passwordFieldId}
-              placeholder="Password"
-            />
-            <button type="submit">Log in</button>
+            <div className={css.inputbox}>
+              <Field
+                name="email"
+                type="email"
+                id={emailFieldId}
+                placeholder="Email"
+                className={css.input}
+              />
+              <Field
+                name="password"
+                type={showPwd ? "text" : "password"}
+                id={passwordFieldId}
+                placeholder="Password"
+                className={css.input}
+              />
+              <button type="button" onClick={togglePwd} className={css.eyeBtn}>
+                <img src={showPwd ? eyeoff : eye} alt="Visibility" width="20" />
+              </button>
+            </div>
+            <button type="submit" className={css.submitBtn}>
+              Log in
+            </button>
           </Form>
         </Formik>
       </div>

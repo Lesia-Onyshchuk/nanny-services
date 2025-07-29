@@ -4,6 +4,7 @@ import arrowtop from "../../../public/assets/icons/arrow-top.svg";
 import arrowright from "../../../public/assets/icons/arrow-right.svg";
 import css from "./Hero.module.css";
 import clsx from "clsx";
+import check from "../../../public/assets/icons/check.svg";
 
 const activeClass = ({ isActive }) => {
   return clsx(css.link, isActive && css.isActive);
@@ -25,6 +26,15 @@ const Hero = () => {
         </NavLink>
       </div>
       <img src={hero} alt="" className={css.heroImg} />
+      <div className={css.accountbox}>
+        <div className={css.checkbox}>
+          <img src={check} width="20" />
+        </div>
+        <div className={css.textbox}>
+          <p className={css.textName}>Experienced nannies</p>
+          <p className={css.number}>15,000</p>
+        </div>
+      </div>
     </div>
   );
 };
