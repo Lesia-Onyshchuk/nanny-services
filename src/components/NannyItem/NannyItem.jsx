@@ -1,13 +1,59 @@
 import location from "../../../public/assets/icons/location.svg";
 import star from "../../../public/assets/icons/star.svg";
 import heartEmpty from "../../../public/assets/icons/heart-empty.svg";
-import { useState } from "react";
+import heartFull from "../../../public/assets/icons/heart-full.svg";
+import { useEffect, useState } from "react";
 import css from "./NannyItem.module.css";
 import AppointmentModal from "../AppointmentModal/AppointmentModal.jsx";
+import { auth } from "../../firebase-config";
 
-const NannyItem = ({ nanny }) => {
+const NannyItem = ({ nanny, onRemoveFavorite }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [modal, setModal] = useState(null);
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  useEffect(() => {
+    const user = auth.currentUser;
+    if (user) {
+      const storageKey = `favorites_${user.uid}`;
+      const existing = JSON.parse(localStorage.getItem(storageKey)) || [];
+      setIsFavorite(existing.some((item) => item.id === nanny.id));
+    }
+  }, [nanny.id]);
+
+  const handleFavorite = (nanny) => {
+    const user = auth.currentUser;
+    if (!user) {
+      alert("You must be logged in to add favorites.");
+      return;
+    }
+
+    const storageKey = `favorites_${user.uid}`;
+    const existing = JSON.parse(localStorage.getItem(storageKey)) || [];
+    const isAlreadyFavorite = existing.some((item) => item.id === nanny.id);
+
+    let updated;
+
+    if (isAlreadyFavorite) {
+      updated = existing.filter((item) => item.id !== nanny.id);
+      setIsFavorite(false);
+    } else {
+      updated = [...existing, nanny];
+      setIsFavorite(true);
+    }
+
+    localStorage.setItem(storageKey, JSON.stringify(updated));
+    if (isAlreadyFavorite) {
+      updated = existing.filter((item) => item.id !== nanny.id);
+      setIsFavorite(false);
+      if (onRemoveFavorite) {
+        onRemoveFavorite(nanny.id);
+      }
+    } else {
+      updated = [...existing, nanny];
+      setIsFavorite(true);
+    }
+  };
 
   const charactersInfo = nanny.characters
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
@@ -61,8 +107,8 @@ const NannyItem = ({ nanny }) => {
           </p>
         </li>
       </ul>
-      <button className={css.selectBtn}>
-        <img src={heartEmpty} alt="like" width="26" />
+      <button className={css.selectBtn} onClick={() => handleFavorite(nanny)}>
+        <img src={isFavorite ? heartFull : heartEmpty} alt="like" width="26" />
       </button>
       <div className={css.imgbox}>
         <img src={nanny.avatar_url} alt={nanny.name} className={css.photo} />
