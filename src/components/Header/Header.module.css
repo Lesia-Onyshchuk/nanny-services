@@ -4,7 +4,7 @@
 
 .headerbox {
   position: absolute;
-  top: 52px;
+  top: 50px;
   width: 1184px;
   display: flex;
   justify-content: space-between;
@@ -57,7 +57,69 @@
 }
 
 .login:hover,
-.register:hover {
+.register:hover,
+.logout:hover {
   background-color: #fbfbfb;
   color: #f03f3b;
+}
+
+/* other pages */
+
+.headerboxOther {
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+  background-color: #f03f3b;
+  padding: 20px 128px;
+}
+
+/* user menu  */
+
+.logout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(251, 251, 251, 0.4);
+  border-radius: 30px;
+  /* padding: 14px 39px; */
+  width: 134px;
+  height: 48px;
+  background-color: transparent;
+  font-family: "Helvetica Neue", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: #fbfbfb;
+  transition: background-color 300ms ease-in-out, color 300ms ease-in-out;
+}
+
+.userbox {
+  display: flex;
+  gap: 24px;
+  margin-left: 217px;
+}
+
+.userIcon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  background: #fbfbfb;
+}
+
+.userInfo {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.name {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.11;
+  letter-spacing: -0.01em;
+  color: #fbfbfb;
 }

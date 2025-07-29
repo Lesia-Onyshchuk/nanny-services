@@ -8,6 +8,7 @@ body {
   align-items: center;
   font-family: "Helvetica Neue", sans-serif;
   padding: 0;
+  overflow-y: scroll;
 }
 
 button {

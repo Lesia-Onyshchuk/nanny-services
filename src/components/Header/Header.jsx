@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import Navigation from "../Navigation/Navigation.jsx";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
@@ -8,10 +8,12 @@ import RegistrationModal from "../RegistrationModal/RegistrationModal.jsx";
 import LoginModal from "../LoginModal/LoginModal.jsx";
 import { get, ref } from "firebase/database";
 import css from "./Header.module.css";
+import userIcon from "../../../public/assets/icons/user.svg";
 
 const Header = () => {
   const [user, setUser] = useState(null);
   const [modal, setModal] = useState(null);
+  const { pathname } = useLocation();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
@@ -63,14 +65,50 @@ const Header = () => {
     return null;
   };
 
+  // if (pathname === "/") {
+  //   return (
+  //     <div className={css.wrapper}>
+  //       <div className={css.headerbox}>
+  //         <Navigation user={user} />
+  //         {user ? (
+  //           <div>
+  //             <p>{user.name}</p>
+  //             <button onClick={logout}>Log out</button>
+  //           </div>
+  //         ) : (
+  //           <div className={css.btnbox}>
+  //             <button onClick={() => setModal("login")} className={css.login}>
+  //               Log In
+  //             </button>
+  //             <button
+  //               onClick={() => setModal("register")}
+  //               className={css.register}
+  //             >
+  //               Registration
+  //             </button>
+  //           </div>
+  //         )}
+  //       </div>
+  //       {renderModal()}
+  //     </div>
+  //   );
+  // }
+
   return (
     <div className={css.wrapper}>
-      <div className={css.headerbox}>
+      <div className={pathname === "/" ? css.headerbox : css.headerboxOther}>
         <Navigation user={user} />
         {user ? (
-          <div>
-            <p>{user.name}</p>
-            <button onClick={logout}>Log out</button>
+          <div className={css.userbox}>
+            <div className={css.userInfo}>
+              <div className={css.userIcon}>
+                <img src={userIcon} alt="user" width="16" />
+              </div>
+              <p className={css.name}>{user.name}</p>
+            </div>
+            <button onClick={logout} className={css.logout}>
+              Log out
+            </button>
           </div>
         ) : (
           <div className={css.btnbox}>
