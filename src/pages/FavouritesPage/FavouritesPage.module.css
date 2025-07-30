@@ -1,6 +1,7 @@
 .page {
   padding: 64px 128px;
   background-color: #f3f3f3;
+  min-height: 100vh;
 }
 
 .label {
@@ -46,4 +47,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.noFavourites {
+  color: #f03f3b;
+  font-size: 32px;
 }

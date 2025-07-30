@@ -7,7 +7,7 @@ const NanniesList = ({ nannies, onRemoveFavorite }) => {
   return (
     <ul className={css.listbox}>
       {nannies.map((nanny) => (
-        <li key={id}>
+        <li key={id} className={css.liItem}>
           <NannyItem nanny={nanny} onRemoveFavorite={onRemoveFavorite} />
         </li>
       ))}

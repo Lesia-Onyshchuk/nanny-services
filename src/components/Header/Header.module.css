@@ -16,6 +16,7 @@
 .btnbox {
   display: flex;
   gap: 8px;
+  margin-left: 92px;
 }
 
 .login {
@@ -65,11 +66,18 @@
 
 /* other pages */
 
-.headerboxOther {
+.wrapperOther {
+  position: relative;
   width: 100vw;
+  background-color: #f03f3b;
+}
+
+.headerboxOther {
+  /* width: 100vw; */
+  width: 1184px;
   display: flex;
   justify-content: space-between;
-  background-color: #f03f3b;
+  /* background-color: #f03f3b; */
   padding: 20px 128px;
 }
 

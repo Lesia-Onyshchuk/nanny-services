@@ -5,24 +5,32 @@ import arrowright from "../../../public/assets/icons/arrow-right.svg";
 import css from "./Hero.module.css";
 import clsx from "clsx";
 import check from "../../../public/assets/icons/check.svg";
+import { useState } from "react";
 
 const activeClass = ({ isActive }) => {
   return clsx(css.link, isActive && css.isActive);
 };
 
 const Hero = () => {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <div className={css.herobox}>
       <div className={css.infobox}>
         <h1 className={css.title}>Make Life Easier for the Family:</h1>
         <p className={css.text}>Find Babysitters Online for All Occasions</p>
-        <NavLink to="nannies" className={css.link}>
+        <NavLink
+          to="nannies"
+          className={css.link}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
           <p>Get started</p>
-          {activeClass ? (
-            <img src={arrowtop} alt="" width="15" />
-          ) : (
-            <img src={arrowright} alt="" width="20" />
-          )}
+          <img
+            src={isHovered ? arrowright : arrowtop}
+            alt=""
+            width={isHovered ? "20" : "15"}
+          />
         </NavLink>
       </div>
       <img src={hero} alt="" className={css.heroImg} />

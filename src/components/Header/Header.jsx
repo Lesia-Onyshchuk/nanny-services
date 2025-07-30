@@ -95,7 +95,7 @@ const Header = () => {
   // }
 
   return (
-    <div className={css.wrapper}>
+    <div className={pathname === "/" ? css.wrapper : css.wrapperOther}>
       <div className={pathname === "/" ? css.headerbox : css.headerboxOther}>
         <Navigation user={user} />
         {user ? (

@@ -56,7 +56,7 @@
 
 .generalInfo {
   display: flex;
-  gap: 32px;
+  /* gap: 32px; */
   position: absolute;
   top: 24px;
   right: 98px;
@@ -73,6 +73,16 @@
 .li {
   display: flex;
   gap: 8px;
+  margin: 0;
+}
+
+.li:not(:last-child)::after {
+  content: " ";
+  display: inline-block;
+  height: 16px;
+  width: 1px;
+  background-color: rgba(17, 16, 28, 0.2);
+  margin: 4px 16px;
 }
 
 .imgbox {
@@ -83,12 +93,20 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .photo {
   border-radius: 15px;
   width: 96px;
   height: 96px;
+}
+
+.online {
+  position: absolute;
+  top: 9px;
+  right: 14px;
+  z-index: 200;
 }
 
 .role {

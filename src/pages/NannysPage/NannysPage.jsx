@@ -26,9 +26,11 @@ const sortEntries = (entries, sortOption) => {
 
   return entries.sort((a, b) => {
     if (sortField === "name") {
+      const aName = a.name || "";
+      const bName = b.name || "";
       return sortDirection === "asc"
-        ? a.name.localeCompare(b.name)
-        : b.name.localeCompare(a.name);
+        ? aName.localeCompare(bName)
+        : bName.localeCompare(aName);
     }
 
     const aVal = Number(a[sortField]) || 0;
@@ -84,8 +86,15 @@ const NannysPage = () => {
     return () => unsubscribe();
   }, [sortOption, fetchAllData]);
 
-  const paginatedData = useMemo(() => {
-    return allData.slice(0, page * onPage);
+  const { paginatedData, hasMore } = useMemo(() => {
+    const validData = allData.filter(
+      (nanny) => typeof nanny.name === "string" && nanny.name.trim() !== ""
+    );
+    const paginated = validData.slice(0, page * onPage);
+    return {
+      paginatedData: paginated,
+      hasMore: paginated.length < validData.length,
+    };
   }, [allData, page]);
 
   const handleLoadMore = () => {
@@ -109,7 +118,7 @@ const NannysPage = () => {
       <div className={css.listbox}>
         {error && <p style={{ color: "red" }}>{error}</p>}
 
-        {paginatedData.length < allData.length && (
+        {hasMore && (
           <button onClick={handleLoadMore} className={css.loadMore}>
             Load more
           </button>

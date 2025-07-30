@@ -8,7 +8,7 @@ const activeClass = ({ isActive }) => {
 
 const Navigation = ({ user }) => {
   return (
-    <div className={css.navbox}>
+    <div className={user ? css.navboxUser : css.navbox}>
       <NavLink to="/" className={css.logo}>
         Nanny.Services
       </NavLink>

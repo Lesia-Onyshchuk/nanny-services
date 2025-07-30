@@ -55,7 +55,8 @@ const RegistrationModal = ({ onClose }) => {
     }
   };
 
-  const handleSubmit = async ({ email, password }) => {
+  const handleSubmit = async ({ name, email, password }) => {
+    console.log("Submitting:", { name, email, password });
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -68,14 +69,16 @@ const RegistrationModal = ({ onClose }) => {
         username: name,
         email,
       });
+
       toast.success("Registration successful");
       onClose();
       navigate("/");
     } catch (error) {
+      console.error("Firebase error:", error.code, error.message);
       const message = error.message;
 
-      if (message.includes("auth/user-not-found")) {
-        toast.error("User not found. Please register.", {
+      if (message.includes("auth/email-already-in-use")) {
+        toast.error("This email is already registered.", {
           duration: 4000,
           style: {
             background: "rgb(206, 84, 84)",
@@ -84,17 +87,17 @@ const RegistrationModal = ({ onClose }) => {
             fontWeight: "500",
           },
         });
-      } else {
-        toast.error("Login or password error.", {
-          duration: 4000,
-          style: {
-            background: "rgb(206, 84, 84)",
-            color: "#fff",
-            fontSize: "16px",
-            fontWeight: "500",
-          },
-        });
+        return;
       }
+      toast.error("Login or password error.", {
+        duration: 4000,
+        style: {
+          background: "rgb(206, 84, 84)",
+          color: "#fff",
+          fontSize: "16px",
+          fontWeight: "500",
+        },
+      });
     }
   };
 
@@ -103,8 +106,8 @@ const RegistrationModal = ({ onClose }) => {
   };
 
   return (
-    <div className={css.wrapper}>
-      <div onClick={handleBackdropClick} className={css.modal}>
+    <div className={css.wrapper} onClick={handleBackdropClick}>
+      <div className={css.modal}>
         <button type="button" onClick={onClose} className={css.closeBtn}>
           <img src={close} alt="close" width="20" />
         </button>

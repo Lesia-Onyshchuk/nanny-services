@@ -105,7 +105,9 @@ const FavouritesPage = () => {
         {user === null && (
           <p style={{ color: "red" }}>Please sign in to view your favorites.</p>
         )}
-        {user && favorites.length === 0 && <p>No favorite nannies yet.</p>}
+        {user && favorites.length === 0 && (
+          <p className={css.noFavourites}>No favorite nannies yet.</p>
+        )}
       </div>
     </div>
   );

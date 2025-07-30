@@ -53,7 +53,7 @@ const LoginModal = ({ onClose }) => {
       await signInWithEmailAndPassword(auth, email, password);
       toast.success("Login successful");
       onClose();
-      navigate("/");
+      // navigate("/");
     } catch (error) {
       const message = error.message;
 
@@ -86,8 +86,8 @@ const LoginModal = ({ onClose }) => {
   };
 
   return (
-    <div className={css.wrapper}>
-      <div onClick={handleBackdropClick} className={css.modal}>
+    <div className={css.wrapper} onClick={handleBackdropClick}>
+      <div className={css.modal}>
         <button type="button" onClick={onClose} className={css.closeBtn}>
           <img src={close} alt="close" width="20" />
         </button>

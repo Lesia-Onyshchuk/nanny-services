@@ -5,6 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import close from "../../../public/assets/icons/close.svg";
+import { useEffect } from "react";
 
 const AppointmentModal = ({ onClose, nanny }) => {
   const { name, avatar_url } = nanny;
@@ -43,6 +44,16 @@ const AppointmentModal = ({ onClose, nanny }) => {
   const onSubmit = (data) => {
     console.log(data);
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
 
   const handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) {
