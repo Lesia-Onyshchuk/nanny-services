@@ -71,6 +71,7 @@
   line-height: 1.25;
   letter-spacing: -0.01em;
   color: #fbfbfb;
+  margin-top: 32px;
   transition: background-color 300ms ease-in-out, color 300ms ease-in-out;
 }
 
@@ -110,4 +111,23 @@
   background-color: transparent;
   border: none;
   padding: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.errorBox {
+  position: relative;
+}
+
+.error {
+  position: absolute;
+  bottom: 4px;
+  right: 18px;
+  font-size: 12px;
+  line-height: 1;
+  color: red;
 }

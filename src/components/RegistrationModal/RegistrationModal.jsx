@@ -1,15 +1,16 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useEffect, useId, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { auth, db } from "../../firebase-config";
 import { ref, set } from "firebase/database";
 import toast from "react-hot-toast";
-import { Field, Form, Formik } from "formik";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import close from "../../../public/assets/icons/close.svg";
 import eye from "../../../public/assets/icons/eye.svg";
 import eyeoff from "../../../public/assets/icons/eye-off.svg";
 import css from "./RegistartionModal.module.css";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const RegistrationModal = ({ onClose }) => {
   const navigate = useNavigate();
@@ -18,13 +19,7 @@ const RegistrationModal = ({ onClose }) => {
   const nameFieldId = useId();
   const [showPwd, setShowPwd] = useState(false);
 
-  const initialValues = {
-    name: "",
-    email: "",
-    password: "",
-  };
-
-  const LogInSchema = Yup.object().shape({
+  const schema = Yup.object().shape({
     name: Yup.string()
       .min(3, "Name is too short!")
       .max(24, "Name is too long!")
@@ -39,24 +34,27 @@ const RegistrationModal = ({ onClose }) => {
       .required("Error: Password is required!"),
   });
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === "Escape") {
-        onClose();
-      }
+      if (e.key === "Escape") onClose();
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [onClose]);
 
   const handleBackdropClick = (e) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
+    if (e.target === e.currentTarget) onClose();
   };
 
-  const handleSubmit = async ({ name, email, password }) => {
-    console.log("Submitting:", { name, email, password });
+  const onSubmit = async ({ name, email, password }) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -74,7 +72,6 @@ const RegistrationModal = ({ onClose }) => {
       onClose();
       navigate("/");
     } catch (error) {
-      console.error("Firebase error:", error.code, error.message);
       const message = error.message;
 
       if (message.includes("auth/email-already-in-use")) {
@@ -89,6 +86,7 @@ const RegistrationModal = ({ onClose }) => {
         });
         return;
       }
+
       toast.error("Login or password error.", {
         duration: 4000,
         style: {
@@ -101,9 +99,7 @@ const RegistrationModal = ({ onClose }) => {
     }
   };
 
-  const togglePwd = () => {
-    setShowPwd((prev) => !prev);
-  };
+  const togglePwd = () => setShowPwd((prev) => !prev);
 
   return (
     <div className={css.wrapper} onClick={handleBackdropClick}>
@@ -117,43 +113,58 @@ const RegistrationModal = ({ onClose }) => {
           need some information. Please provide us with the following
           information.
         </p>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={LogInSchema}
-          onSubmit={handleSubmit}
-        >
-          <Form>
-            <div className={css.inputbox}>
-              <Field
-                name="name"
-                type="name"
-                id={nameFieldId}
-                placeholder="Name"
-                className={css.input}
-              />
-              <Field
-                name="email"
-                type="email"
-                id={emailFieldId}
-                placeholder="Email"
-                className={css.input}
-              />
-              <Field
-                name="password"
-                type={showPwd ? "text" : "password"}
-                id={passwordFieldId}
-                placeholder="Password"
-                className={css.input}
-              />
-              <button type="button" onClick={togglePwd} className={css.eyeBtn}>
-                <img src={showPwd ? eyeoff : eye} alt="Visibility" width="20" />
-              </button>
-            </div>
-            <button type="submit" className={css.submitBtn}>
-              Sing Up
+        <form onSubmit={handleSubmit(onSubmit)} className={css.form}>
+          <div className={css.errorBox}>
+            <input
+              {...register("name")}
+              type="text"
+              id={nameFieldId}
+              placeholder="Name"
+              className={css.input}
+              onKeyDown={(e) => {
+                if (/\d/.test(e.key)) e.preventDefault();
+              }}
+            />
+            {errors.name && <p className={css.error}>{errors.name.message}</p>}
+          </div>
+
+          <div className={css.errorBox}>
+            <input
+              {...register("email")}
+              type="email"
+              id={emailFieldId}
+              placeholder="Email"
+              className={css.input}
+            />
+            {errors.email && (
+              <p className={css.error}>{errors.email.message}</p>
+            )}
+          </div>
+
+          <div className={css.errorBox} style={{ position: "relative" }}>
+            <input
+              {...register("password")}
+              type={showPwd ? "text" : "password"}
+              id={passwordFieldId}
+              placeholder="Password"
+              className={css.input}
+            />
+            <button
+              type="button"
+              onClick={togglePwd}
+              className={css.eyeBtn}
+              tabIndex={-1}
+            >
+              <img src={showPwd ? eyeoff : eye} alt="Visibility" width="20" />
             </button>
-          </Form>
-        </Formik>
+            {errors.password && (
+              <p className={css.error}>{errors.password.message}</p>
+            )}
+          </div>
+          <button type="submit" className={css.submitBtn}>
+            Sign Up
+          </button>
+        </form>
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import close from "../../../public/assets/icons/close.svg";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 const AppointmentModal = ({ onClose, nanny }) => {
   const { name, avatar_url } = nanny;
@@ -14,14 +15,15 @@ const AppointmentModal = ({ onClose, nanny }) => {
     address: Yup.string()
       .min(2, "Min 2 characters")
       .max(64, "Max 64 characters")
-      .required("Name is required"),
+      .required("Address is required"),
     phone: Yup.string()
       .min(13, "Too short")
       .max(13, "Too long")
       .required("Enter your phone number"),
     age: Yup.number()
+      .typeError("Enter age from 3 to 18")
       .min(3, "Min child's age is 3 years old")
-      .max(18, "Max child's age is 3 years old")
+      .max(18, "Max child's age is 18 years old")
       .required("Enter your child's age"),
     time: Yup.date().required("Choose a time"),
     email: Yup.string().email("Invalid email").required("Email is required"),
@@ -42,7 +44,15 @@ const AppointmentModal = ({ onClose, nanny }) => {
   });
 
   const onSubmit = (data) => {
-    console.log(data);
+    try {
+      const existing = JSON.parse(localStorage.getItem("appointments")) || [];
+      localStorage.setItem("appointments", JSON.stringify([...existing, data]));
+      toast.success("Appointment successfully submitted!");
+      onClose();
+    } catch (error) {
+      toast.error("Something went wrong. Please try again.");
+      console.error("Submission error:", error);
+    }
   };
 
   useEffect(() => {
@@ -93,10 +103,11 @@ const AppointmentModal = ({ onClose, nanny }) => {
                   }
                 }}
               />
-              {errors.name && (
-                <p className={css.error}>{errors.name.message}</p>
+              {errors.address && (
+                <p className={css.error}>{errors.address.message}</p>
               )}
             </div>
+
             <div className={css.errorBox}>
               <input
                 {...register("phone")}
@@ -138,14 +149,18 @@ const AppointmentModal = ({ onClose, nanny }) => {
                 placeholder="Child's age"
                 className={css.inputShort}
                 onKeyDown={(e) => {
-                  if (/\d/.test(e.key)) {
+                  const allowedKeys = [
+                    "Backspace",
+                    "ArrowLeft",
+                    "ArrowRight",
+                    "Tab",
+                  ];
+                  if (!/^\d$/.test(e.key) && !allowedKeys.includes(e.key)) {
                     e.preventDefault();
                   }
                 }}
               />
-              {errors.name && (
-                <p className={css.error}>{errors.name.message}</p>
-              )}
+              {errors.age && <p className={css.error}>{errors.age.message}</p>}
             </div>
 
             <div className={css.errorBox}>
