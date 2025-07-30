@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Navigation from "../Navigation/Navigation.jsx";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
@@ -64,35 +64,6 @@ const Header = () => {
 
     return null;
   };
-
-  // if (pathname === "/") {
-  //   return (
-  //     <div className={css.wrapper}>
-  //       <div className={css.headerbox}>
-  //         <Navigation user={user} />
-  //         {user ? (
-  //           <div>
-  //             <p>{user.name}</p>
-  //             <button onClick={logout}>Log out</button>
-  //           </div>
-  //         ) : (
-  //           <div className={css.btnbox}>
-  //             <button onClick={() => setModal("login")} className={css.login}>
-  //               Log In
-  //             </button>
-  //             <button
-  //               onClick={() => setModal("register")}
-  //               className={css.register}
-  //             >
-  //               Registration
-  //             </button>
-  //           </div>
-  //         )}
-  //       </div>
-  //       {renderModal()}
-  //     </div>
-  //   );
-  // }
 
   return (
     <div className={pathname === "/" ? css.wrapper : css.wrapperOther}>

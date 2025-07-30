@@ -45,7 +45,6 @@
 
 .navbox {
   display: flex;
-  /* margin-right: 92px; */
   gap: 487px;
   justify-content: space-between;
 }

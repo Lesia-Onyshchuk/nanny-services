@@ -3,13 +3,8 @@ import hero from "../../../public/assets/hero.png";
 import arrowtop from "../../../public/assets/icons/arrow-top.svg";
 import arrowright from "../../../public/assets/icons/arrow-right.svg";
 import css from "./Hero.module.css";
-import clsx from "clsx";
 import check from "../../../public/assets/icons/check.svg";
 import { useState } from "react";
-
-const activeClass = ({ isActive }) => {
-  return clsx(css.link, isActive && css.isActive);
-};
 
 const Hero = () => {
   const [isHovered, setIsHovered] = useState(false);

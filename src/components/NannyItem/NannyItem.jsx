@@ -25,10 +25,6 @@ const NannyItem = ({ nanny, onRemoveFavorite }) => {
     }
   }, [nanny.id]);
 
-  // if (!nanny.name || nanny.name.trim() === "") {
-  //   return null;
-  // }
-
   const handleFavorite = (nanny) => {
     const user = auth.currentUser;
     if (!user) {

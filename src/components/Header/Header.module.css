@@ -25,7 +25,6 @@
   justify-content: center;
   border: 1px solid rgba(251, 251, 251, 0.4);
   border-radius: 30px;
-  /* padding: 14px 39px; */
   width: 124px;
   height: 48px;
   background-color: transparent;
@@ -43,7 +42,6 @@
   align-items: center;
   justify-content: center;
   border-radius: 30px;
-  /* padding: 14px 39px; */
   width: 168px;
   height: 48px;
   background-color: #f03f3b;
@@ -73,11 +71,9 @@
 }
 
 .headerboxOther {
-  /* width: 100vw; */
   width: 1184px;
   display: flex;
   justify-content: space-between;
-  /* background-color: #f03f3b; */
   padding: 20px 128px;
 }
 
@@ -89,7 +85,6 @@
   justify-content: center;
   border: 1px solid rgba(251, 251, 251, 0.4);
   border-radius: 30px;
-  /* padding: 14px 39px; */
   width: 134px;
   height: 48px;
   background-color: transparent;

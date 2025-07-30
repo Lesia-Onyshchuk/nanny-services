@@ -1,14 +1,7 @@
-// import "./App.css";
 import { Route, Routes } from "react-router-dom";
-// import HomePage from "./pages/HomePage/HomePage.jsx";
-// import NannysPage from "./pages/NannysPage/NannysPage.jsx";
-// import FavouritesPage from "./pages/FavouritesPage/FavouritesPage.jsx";
-// import NotFoundPage from "./pages/NotFoundPage/NotFoundPage.jsx";
 import { lazy, Suspense } from "react";
 import PrivateRoute from "./PrivateRoute.jsx";
-// import Layout from "./Layout.jsx";
 import { Toaster } from "react-hot-toast";
-import "./App.css";
 import Loader from "./components/Loader/Loader.jsx";
 
 const HomePage = lazy(() => import("./pages/HomePage/HomePage.jsx"));
@@ -22,10 +15,8 @@ const NotFoundPage = lazy(() =>
 const Layout = lazy(() => import("./Layout.jsx"));
 
 function App() {
-  // const [loading, setLoading] = useState(false);
   return (
     <div>
-      {/* {loading && <Loader />} */}
       <Suspense fallback={<Loader />}>
         <Routes>
           <Route path="/" element={<Layout />}>

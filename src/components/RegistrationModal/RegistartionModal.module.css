@@ -15,7 +15,6 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  /* gap: 16px; */
   background-color: #fbfbfb;
   border-radius: 30px;
   padding: 64px;
@@ -131,7 +130,3 @@
   line-height: 1;
   color: red;
 }
-
-/* .input:not(:last-child) {
-  gap: 18px;
-} */
